@@ -8,35 +8,107 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 
+const backgroundColors = {
+  black: {backgroundColor: '#090C08'},
+  purple: {backgroundColor: '#474056'},
+  grey: {backgroundColor: '#8A95A5'},
+  green: {backgroundColor: '#B9C6AE'},
+};
+
+const shadowRunners = {
+  decrypt: {runnerName: `Decrypt`},
+  smokes: {runnerName: `Smokes`},
+  krieger: {runnerName: `Krieger`},
+  applejack: {runnerName: `Applejack`},
+};
 const Start = ({navigation}) => {
 
   const [name, setName] = useState('');
+  const [color, setColor] = useState('');
+  const [runner, setRunner] = useState('');
+
+  const {black, purple, grey, green} = backgroundColors;
+  const {decrypt, smokes, krieger, applejack} = shadowRunners;
 
   return (
       <View style={{flex: 1}}>
         <ImageBackground
-        source={require('../assets/cyberpunk-city.jpg')}
-        style={styles.image}>
-        <Text style={styles.title}>Shadow Habits</Text>
-        <View style={styles.box}>
-          <TextInput
-              style={[styles.input, styles.text]}
-              onChangeText={setName}
-              value={name}
-              placeholder={'Please enter your name'}
-          />
-          <TouchableOpacity
-              style={styles.button}
-              title="Open Chore List"
-              onPress={() =>
-              navigation.navigate('Chore List', {
-                name: name
-              })
-            }>
-            <Text style={styles.buttonText}>Open Chore List</Text>
-          </TouchableOpacity>
-        </View>
-          </ImageBackground>
+            source={require('../assets/cyberpunk-city.jpg')}
+            style={styles.image}>
+          <Text style={styles.title}>Shadow Habits</Text>
+          <View style={styles.box}>
+            <TextInput
+                style={[styles.input, styles.text]}
+                onChangeText={setName}
+                value={name}
+                placeholder={'Please enter your name'}
+            />
+            <View>
+              <Text style={styles.text}>Choose your Runner</Text>
+              <View style={[styles.colorSelector]}>
+                <TouchableOpacity
+                    style={[
+                      styles.colorOption,
+                      black,
+                      color === black.backgroundColor ?
+                          styles.colorSelected :
+                          {},
+                    ]}
+                    onPress={() => setRunner(decrypt.runnerName)}
+                >
+                  <Text style={styles.runnerText}>D</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[
+                      styles.colorOption,
+                      purple,
+                      color === purple.backgroundColor ?
+                          styles.colorSelected :
+                          {},
+                    ]}
+                    onPress={() => setRunner(smokes.runnerName)}
+                >
+                  <Text style={styles.runnerText}>S</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[
+                      styles.colorOption,
+                      grey,
+                      color === grey.backgroundColor ?
+                          styles.colorSelected :
+                          {},
+                    ]}
+                    onPress={() => setRunner(krieger.runnerName)}
+                >
+                  <Text style={styles.runnerText}>K</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[
+                      styles.colorOption,
+                      green,
+                      color === green.backgroundColor ?
+                          styles.colorSelected :
+                          {},
+                    ]}
+                    onPress={() => setRunner(applejack.runnerName)}
+                >
+                  <Text style={styles.runnerText}>A</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <TouchableOpacity
+                style={styles.button}
+                title="Open Chore List"
+                onPress={() =>
+                    navigation.navigate('Chore List', {
+                      name: name,
+                      runner: runner,
+                    })
+                }>
+              <Text style={styles.buttonText}>Open Chore List</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </View>
   );
 };
@@ -46,12 +118,6 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontWeight: 600,
     color: '#FFFFFF',
-    textShadowColor: 'black',
-    textShadowRadius: 1,
-    textShadowOffset: {
-      width: 2,
-      height: 2
-    }
   },
 
   image: {
@@ -65,7 +131,7 @@ const styles = StyleSheet.create({
   box: {
     backgroundColor: '#FFFFFF',
     width: '88%',
-    height: '22%',
+    height: '44%',
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
@@ -80,7 +146,7 @@ const styles = StyleSheet.create({
 
   text: {
     color: '#757083',
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: '300',
     textAlign: 'center',
   },
@@ -121,7 +187,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-});
 
+  runnerText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+  }
+});
 
 export default Start;

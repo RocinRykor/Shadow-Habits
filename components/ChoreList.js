@@ -12,11 +12,16 @@ import {
 import React, {useState} from 'react';
 
 import {positiveMessages} from '../positiveMessages';
+import {useRoute} from '@react-navigation/native';
 
 const ChoreList = () => {
   const [lists, setLists] = useState([]);
   const [taskName, setTaskName] = useState('');
   const [message, setMessage] = useState(null);
+
+  const route = useRoute();
+
+  const {name, color, runner} = route.params;
 
   const addTask = (newTask) => {
     setLists([...lists, newTask]);
@@ -34,7 +39,7 @@ const ChoreList = () => {
       const newList = [...prevState];
       newList[index].completed = !newList[index].completed;
       if (newList[index].completed) {
-        const positiveMessage = `Decrypt Says: \"${positiveMessages[Math.floor(Math.random() * positiveMessages.length)]}\"`
+        const positiveMessage = runner + ` says: \"${positiveMessages[Math.floor(Math.random() * positiveMessages.length)]}\"`
         setMessage(positiveMessage);
       }
       return newList;
